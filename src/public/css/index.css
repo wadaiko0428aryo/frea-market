@@ -1,0 +1,17 @@
+.goods-cards{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-content: center;
+}
+.goods-card{
+    text-align: center;
+}
+.goods-img{
+    width: 70%;
+    height: auto;
+}
+.pagination{
+    justify-content: center;
+    margin-top: 30px;
+}
