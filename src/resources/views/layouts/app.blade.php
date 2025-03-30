@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>coachtechフリマ</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -19,10 +20,8 @@
             </div>
 
             @if (Request::is('login') || Request::is('register'))
-                {{-- ログイン・新規登録ページではタイトルのみを表示 --}}
-                <h1 class="page-title">
-                    {{ Request::is('login') ? 'ログイン' : '新規登録' }}
-                </h1>
+                {{-- ログイン・新規登録ページではタイトル非表示 --}}
+
             @else
                 {{-- ログイン後のヘッダー（検索欄・ログアウトボタン付き） --}}
                 <div class="header-search">

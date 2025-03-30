@@ -1,0 +1,168 @@
+/* 画面全体 */
+.content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sell-content{
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* 見出し */
+.sell-title{
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 50px 0;
+}
+
+/* 画像 */
+.sell-item_label{
+    font-weight: bold;
+    font-size: 24px;
+}
+.sell-item_view{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sell-item-img{
+    border: 1px solid black;
+    width: 35%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.item-image{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.image-select_btn {
+    font-size: 16px;
+    color: #FF5655;
+    cursor: pointer;
+    padding: 5px 15px;
+    border: 1px solid #FF5655;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-left: 10px;
+    text-align: center;
+}
+#imageInput {
+    display: none;
+}
+.label-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.information-title{
+    color: #5F5F5F;
+    font-size: 30px;
+    border-bottom: 1px solid #5F5F5F;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+/* カテゴリー */
+.sell-item_categories{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.sell-item_label{
+    margin-bottom: 20px;
+}
+/* 6列に分割 */
+.categories-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.categories-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.categories-checkbox{
+    display: none; /* チェックボックスを非表示 */
+}
+.categories-label{
+    color: #FF5655;
+    border: 1px solid #FF5655;
+    border-radius: 20px;
+    padding: 3px 20px;
+    white-space: nowrap; /*文字が折り返さない*/
+    cursor: pointer;
+}
+.categories-checkbox:checked + label {
+    background-color: #FF5655;
+    color: #fff;
+}
+
+/* 商品の状態 */
+.item-input{
+    width: 100%;
+    padding: 5px 0;
+}
+
+/* 販売価格 */
+.price-input{
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #5F5F5F;
+    border-radius: 3px;
+}
+.dollar{
+    position: absolute;
+    left: 10px;
+    font-size: 16px;
+}
+
+.item-input_price{
+    width: 100%;
+    padding-left: 25px;
+    border: none;
+    outline: none;
+    font-size: 16;
+}
+
+
+.sell-btn{
+    margin: 50px 0;
+    text-align: center;
+}
+.sell-btn_submit{
+    width: 100%;
+    background-color: #FF5555;
+    color: #fff;
+    border: none;
+    padding: 5px 0;
+
+}
+
+.sell-item_group{
+    margin-bottom: 20px;
+}
+
+/* セッション */
+.alert {
+    background-color: rgba(98, 184, 98, 0.275);
+    width: 100%;
+    padding: 10px;
+}
+.alert-message {
+    color: rgb(52, 141, 52);
+}

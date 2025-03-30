@@ -27,7 +27,7 @@ class AuthController extends Controller
         // ログイン処理
         Auth::login($user);
 
-        return redirect()->route('profile');  // プロフィール編集画面にリダイレクト
+        return redirect()->route('profile')->with('referer', 'register');// プロフィール編集画面にリダイレクト
     }
 
     public function login(LoginRequest $request)
@@ -40,7 +40,7 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password'],
         ])) {
-            return redirect()->route('topPage');  // ログイン後、トップページにリダイレクト
+            return redirect()->route('topPage')->with('message', 'さんのアカウントにログインしました');  // ログイン後、トップページにリダイレクト
         }
 
         return back()->withErrors(['email' => 'ログイン情報が登録されていません'])->withInput();  // 認証失敗時

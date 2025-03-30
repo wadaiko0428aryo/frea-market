@@ -1,0 +1,139 @@
+.purchase-form{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+
+}
+.purchase-left{
+    flex: 6;
+    padding: 50px;
+}
+.purchase-right{
+    flex: 4;
+    padding: 50px;
+}
+
+/* 画像、名前、値段 */
+.purchase-img_card{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+}
+.purchase-item_img{
+    width: 300px;
+    height: 300px;
+    margin-bottom: 50px;
+}
+.purchase-box{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+}
+.purchase-name{
+    font-weight: bold;
+    font-size: 24px;
+}
+.purchase-price_data{
+    font-size: 24px;
+}
+
+/* 支払い方法 */
+.purchase-group{
+    border-bottom: 1px solid black;
+    margin-bottom: 30px;
+}
+.purchase-label{
+    font-weight: bold;
+    margin-left: 20px;
+}
+.purchase-input{
+    margin: 20px 50px 0;
+}
+.purchase-method_select{
+    width: 50%;
+    color: #5F5F5F;
+    margin-bottom: 20px;
+}
+
+/* 配送先 */
+.post-data{
+    font-weight: bold;
+}
+.profile-data{
+    border: none;
+    font-weight: bold;
+}
+.purchase-address{
+    display: flex;
+    justify-content: center;
+    justify-content: flex-start;
+}
+.purchase-address_data{
+    margin-bottom: 30px;
+}
+.address-change_link{
+    text-decoration: none;
+}
+
+/* 購入欄 */
+.select-result{
+    width: 100%;
+    height: 30%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.select-result_group{
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+/* 中央線 */
+.select-result::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: black;
+}
+.result-value{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* ボタン */
+.purchase-submit{
+    background-color: #FF5555;
+    color: white;
+    width: 100%;
+    border: #FF5555;
+    margin-top: 50px;
+    padding: 5px 0;
+}
+.back-btn{
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+
+/* レスポンシブ */
+/* ７６８〜８５０px */
+@media (max-width: 850px) and (min-width: 768px) {
+    .purchase-img_card{
+        flex-direction: column;
+    }
+    .purchase-method_select{
+        width: 100%;
+    }
+    .select-result_group{
+        flex-direction: column;
+    }
+}
+

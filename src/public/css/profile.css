@@ -1,0 +1,130 @@
+
+.profile-edit_view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* フォーム内要素を中央揃え */
+    width: 50%;
+
+}
+
+.profile-edit_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+        /* フォーム内要素を中央揃え */
+    width: 100%;
+
+}
+
+.profile-edit_title {
+    font-weight: bold;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 15%;
+}
+
+
+
+.user-edit_group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
+    width: 100%;
+}
+
+.label {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.input {
+    border: 1px solid rgb(102, 98, 98);
+    border-radius: 3px;
+    padding: 10px;
+    cursor: text;
+}
+
+
+.update-btn {
+    width: 100%;
+    text-align: center;
+    border: 1px solid #FF5555;
+    border-radius: 3px;
+    background-color: #FF5555;
+    display: block;
+}
+
+.btn {
+    font-weight: bold;
+    color: white;
+    font-size: 26px;
+    display: inline-block;
+    width: 100%;
+}
+
+
+/* 画像 */
+.profile-img_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    /* 左寄せで横並びに */
+    gap: 15px;
+    /* 画像とボタンの間にスペースを設ける */
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ddd;
+    /* 灰色の円形 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 画像を円形に合わせる */
+}
+
+.image-select_btn {
+    font-size: 16px;
+    color: #007bff;
+    cursor: pointer;
+    padding: 5px 15px;
+    /* ボタンに余白を追加 */
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-left: 10px;
+    /* ボタンと画像の間にスペースを追加 */
+}
+
+#imageInput {
+    display: none;
+    /* ファイル選択のinputは非表示に */
+}
+
+.file-name {
+    display: none;
+    /* ファイル名の表示を隠す */
+    font-size: 14px;
+    color: #555;
+    margin-left: 10px;
+}

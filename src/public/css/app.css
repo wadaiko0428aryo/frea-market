@@ -12,11 +12,23 @@ body{
     align-items: center;
     justify-content: space-between;
 }
+
+.search-submit{
+    background-color: black;
+    color: white;
+    border: none;
+}
+.reset-button{
+    text-decoration: none;
+    border: 1px solid #0073CC;
+    padding: 3px;
+}
 .logout-btn{
     text-decoration: none;
     background-color: black;
     color: white;
     padding: 5px;
+    border: none;
 }
 
 .sell{
@@ -31,3 +43,134 @@ body{
     color: white;
     padding: 5px;
 }
+
+/* レスポンシブ */
+/* 768px以上850px未満（タブレット） */
+@media (max-width: 850px) and (min-width: 768px) {
+    .header-inner {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 10px;
+            align-items: center;
+        }
+        .header-title{
+            grid-column: 1;
+            grid-row: 1;
+            text-align: center;
+        }
+        .header-search {
+            grid-column: 3;
+            grid-row: 1;
+            text-align: center;
+        }
+        .header-logout{
+            grid-column: 1;
+            grid-row: 2;
+            text-align: center;
+        }
+        .header-mypage{
+            grid-column: 2;
+            grid-row: 2;
+            text-align: center;
+        }
+        .header-sell{
+            grid-column: 3;
+            grid-row: 2;
+            text-align: center;
+        }
+}
+
+.alert{
+    background-color: rgba(98, 184, 98, 0.275) !important;
+    width: 100%;
+    padding: 10px;
+}
+.alert-message {
+    color: rgb(52, 141, 52);
+}
+
+
+.goods-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.goods-card {
+    text-align: center;
+}
+
+.goods-img {
+    width: 70%;
+    height: auto;
+}
+
+.pagination {
+    justify-content: center;
+    margin-top: 30px;
+}
+
+
+
+
+.error {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    color: red;
+}
+
+
+/* レスポンシブ対応 */
+
+/* 1400px以上のPC */
+@media (min-width: 1400px) {
+    .main-content {
+        flex-direction: row;
+    }
+
+    .content-left {
+        width: 50%;
+    }
+
+    .content-right {
+        width: 50%;
+    }
+}
+
+/* 768px以上850px以下のタブレット */
+/* 1400px以上のPC */
+@media (min-width: 1400px) {
+    .goods-cards {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4列 */
+    }
+}
+
+/* 850px以上1400px未満（タブレット） */
+@media (max-width: 1400px) and (min-width: 850px) {
+    .goods-cards {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3列 */
+    }
+}
+
+/* 768px以上850px未満（タブレット） */
+@media (max-width: 850px) and (min-width: 768px) {
+    .goods-cards {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2列 */
+    }
+}
+
+/* 767px以下のモバイル */
+@media (max-width: 767px) {
+    .goods-cards {
+        grid-template-columns: 1fr;
+        /* 1列 */
+    }
+}
+

@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => '',
+            'image' => 'required | image | mimes:jpeg,png,fpg,gif | max:5120',
             'name' => ['required', 'max:150'],
             'post' =>  ['required', 'numeric'],
             'address' => 'required',
@@ -35,7 +35,10 @@ class ProfileRequest extends FormRequest
     public function messages()
     {
         return [
-            'image.' => '',
+            'image.required' => '画像を選択してください',
+            'image.image' => '画像ファイルを選択してください',
+            'image.mimes' => '画像はjpeg,png,jpg,gif形式のみ対応しています',
+            'image.max' => 'サイズが5MBまでの画像を選択してください',
             'name.required' => 'ユーザー名を入力してください',
             'name.max' => 'ユーザー名を150字以内で入力してください',
             'post.required' => '郵便番号を入力してください',

@@ -16,4 +16,9 @@ class Profile extends Model
         'address',
         'building',
     ];
+
+    public function purchase()
+    {
+        return $this->belongsToMany(Purchase::class);
+    }
 }

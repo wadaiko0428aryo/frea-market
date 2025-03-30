@@ -1,18 +1,20 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+<link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 @endsection
 
 @section('content')
     <div class="login-view">
-        <h2 class="login title">
-            ログイン
-        </h2>
         <div class="login-form">
+            <h2 class="login-title">
+                ログイン
+            </h2>
+
             <form action="{{ route('login') }}" method="post">
             @csrf
-                <div class="form_group">
+
+                <div class="form-group">
                     <label for="email" class="label">
                         メールアドレス
                     </label>
@@ -22,9 +24,9 @@
                         <p>{{ $message }}</p>
                         @enderror
                     </div>
-
                 </div>
-                <div class="form_group">
+
+                <div class="form-group">
                     <label for="password" class="label">
                         パスワード
                     </label>
@@ -34,12 +36,14 @@
                         {{  $message }}
                         @enderror
                     </div>
-
                 </div>
+                
                 <div class="login-btn">
                     <input type="submit" value="ログインする" class="btn">
                 </div>
-                <a href="/register" class="login-link">会員登録はこちら</a>
+                <div class="login-link">
+                    <a href="/register" class="link">会員登録はこちら</a>
+                </div>
             </form>
         </div>
     </div>
