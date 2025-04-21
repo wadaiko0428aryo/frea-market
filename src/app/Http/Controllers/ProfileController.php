@@ -60,9 +60,9 @@ class ProfileController extends Controller
             'name' => $request->name
         ]);
 
-        // リダイレクト先の判定
-        $redirectTo = $request->input('referer', 'myPage') === 'register' ? 'topPage' : 'myPage';
+        // `session()->get()` でセッションの値を取得
+        $redirectTo = session()->get('referer') === 'register' ? 'topPage' : 'myPage';
 
-        return redirect()->route($redirectTo)->with('message', 'さんのアカウントを会員登録しました');
+        return redirect()->route($redirectTo);
     }
 }

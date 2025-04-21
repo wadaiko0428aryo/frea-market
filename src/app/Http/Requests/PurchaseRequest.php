@@ -25,13 +25,15 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'purchase_method' => 'required',
+            'address' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'purchase_method.required' => '支払い方法を選択してください'
+            'purchase_method.required' => '支払い方法を選択してください',
+            'address.required' => '住所を入力してください',
         ];
     }
 }

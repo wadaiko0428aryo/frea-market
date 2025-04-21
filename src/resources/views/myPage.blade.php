@@ -43,6 +43,7 @@
     </div>
 </div>
 
+@if($items->isNotEmpty())
 <div class="goods-cards">
     @foreach($items as $item)
             <a href="{{ route('detail' , $item->id) }}" class="goods-card">
@@ -55,5 +56,9 @@
 <div class="pagination">
     {{ $items->links('vendor.pagination.bootstrap-4') }}
 </div>
+
+@else
+<div class="no-item">出品した商品はありません</div>
+@endif
 
 @endsection

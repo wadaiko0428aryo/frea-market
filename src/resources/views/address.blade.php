@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="post" class="label">
+                    <label for="address" class="label">
                         住所
                     </label>
                     <input type="text" name="address" id="address" value="{{ old('address') ?? $profile->address }}" class="input">

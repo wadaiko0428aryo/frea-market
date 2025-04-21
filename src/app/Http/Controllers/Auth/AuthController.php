@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Mail\TokenEmail;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
@@ -24,11 +29,101 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        // メール認証用のトークンを生成
+        $onetime_token = strval(rand(1000, 9999));  // 4桁のトークン
+        $onetime_expiration = now()->addMinutes(10); // トークンの有効期限
+
+        // トークンをユーザーに保存
+        $user->onetime_token = $onetime_token;
+        $user->onetime_expiration = $onetime_expiration;
+        $user->save();
+
+        // メール送信
+        Mail::to($user->email)->send(new TokenEmail($user->email, $onetime_token));
+
+
         // ログイン処理
         Auth::login($user);
 
-        return redirect()->route('profile')->with('referer', 'register');// プロフィール編集画面にリダイレクト
+        return redirect()->route('mailCheck')->with('referer', 'register');
     }
+
+    public function mailCheck()
+    {
+        return view('auth.mailCheck');
+    }
+
+    /**
+     **引数で渡されたメールアドレスとワンタイムトークンをusersテーブルに追加するコントロール
+     */
+    public static function storeEmailAndToken($email, $onetime_token, $onetime_expiration)
+    {
+        User::create([
+            'email' => $email,
+            'onetime_token' => $onetime_token,
+            'ontime_expiration' => $onetime_expiration
+        ]);
+    }
+
+    /**
+     **引数で渡されたワンタイムトークンをusersテーブルに追加するコントロール
+     */
+    public static function storeToken($email, $onetime_token, $onetime_expiration) {
+        User::where('email', $email)->update([
+            'onetime_token' => $onetime_token,
+            'onetime_expiration' => $onetime_expiration
+        ]);
+    }
+
+    /**
+     **ワンタイムトークンが含まれるメールを送信する
+     */
+    public function sendTokenEmail(Request $request) {
+        $email = $request->email;
+        $onetime_token = "";
+
+        for ($i = 0; $i < 4; $i++) {
+            $onetime_token .= strval(rand(0, 9)); // ワンタイムトークン
+        }
+        $onetime_expiration = now()->addMinute(3); // 有効期限
+
+        $user = User::where('email', $email)->first(); // 受け取ったメールアドレスで検索
+        if ($user === null) {
+            RegisteredUserController::storeEmailAndToken($email, $onetime_token, $onetime_expiration);
+        } else {
+            RegisteredUserController::storeToken($email, $onetime_token, $onetime_expiration);
+        }
+
+        session()->flash('email', $email); // 認証処理で利用するために一時的に格納
+
+        Mail::to($user->email)->send(new TokenEmail($user->email, $onetime_token));
+
+        return view("auth.second-auth");
+    }
+
+    /**
+     **ワンタイムトークンが正しいか確かめてログインさせる
+     */
+        public function auth(Request $request)
+        {
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && $user->onetime_token == $request->onetime_token && now()->lessThanOrEqualTo($user->onetime_expiration)) {
+                // 認証成功
+                Auth::login($user);
+                // ここで `referer` を取得し、プロフィール画面へ渡す
+                $referer = session('referer', 'login'); // デフォルトは `login`
+
+                return redirect()->route('profile')->with('referer', $referer);
+            }
+
+            // トークンが無効または期限切れ
+            return redirect()->route('login')->withErrors(['token' => '無効なトークンです。']);
+        }
+
+
+
+
 
     public function login(LoginRequest $request)
     {

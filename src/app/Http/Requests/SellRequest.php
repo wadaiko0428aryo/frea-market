@@ -25,9 +25,9 @@ class SellRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'price' => 'required | numeric',
+            'price' => 'required | numeric| min:1',
             'description' => 'required | max:255',
-            'image' => 'required | image | mimes:jpeg,png,fpg,gif | max:5120',
+            'image' => 'required | image | mimes:jpeg,png,jpg,gif | max:5120',
             'condition' => 'required',
             'brand' => 'required',
             'category' => 'required | array',
@@ -41,6 +41,7 @@ class SellRequest extends FormRequest
             'name.required' => '商品名を入力してください',
             'price.required' => '販売価格を入力してください',
             'price.numeric' => '数字で入力してください',
+            'price.min' => '1円以上で入力してください',
             'description.max' => '255文字以内で入力してください',
             'description.required' => '商品説明を入力してください',
             'image.required' => '商品画像を選択してください',

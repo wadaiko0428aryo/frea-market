@@ -28,6 +28,6 @@ class Purchase extends Model
 
     public function profile()
     {
-        return $this->belongsToMany(Profile::class);
+        return $this->belongsTo(Profile::class);
     }
 }

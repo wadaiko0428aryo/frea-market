@@ -59,6 +59,11 @@
                         <input type="text" name="address" id="address" readonly value="{{ $profile->address }}" class="profile-data">
                         <input type="text" name="building" id="building" readonly value="{{ $profile->building }}" class="profile-data">
                     </div>
+                    <div class="error">
+                        @error('address')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
             </div>
 

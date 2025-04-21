@@ -7,8 +7,8 @@
 @section('content')
 <div class="top-view">
     <div class="list-link">
-        <a href="{{ route('topPage') }}" class="link-title {{ request()->routeIs('topPage') ? 'active' : '' }}">おすすめ</a>
-        <a href="{{ route('myList') }}" class="link-title {{ request()->routeIs('myList') ? 'active' : '' }}">マイリスト</a>
+        <a href="{{ route('topPage', ['name' => request('name')]) }}" class="link-title {{ request()->routeIs('topPage') ? 'active' : '' }}">おすすめ</a>
+        <a href="{{ route('myList', ['name' => request('name')]) }}" class="link-title {{ request()->routeIs('myList') ? 'active' : '' }}">マイリスト</a>
     </div>
 </div>
 <div class="good-content">
@@ -21,6 +21,7 @@
                     <img src="{{ Str::startsWith($item->image, 'items/') ? asset('storage/' . $item->image) : asset('images/' . basename($item->image)) }}" alt="商品画像" class="goods-img">
                     <div class="goods-name">{{ $item->name }}</div>
                     </a>
+                    <!-- myList内でsold表示 -->
             @endforeach
         </div>
     @endif

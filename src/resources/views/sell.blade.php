@@ -15,25 +15,26 @@
             <div class="sell-item_label">
                 商品画像
             </div>
+
             <div class="sell-item_view">
-                <div class="sell-item-img">
-                    <img src="{{ isset($item) && $item->image ? asset('storage/' . $item->image) : asset('images/default.png') }}" alt="商品画像" id="previewImage" class="item-image">
-                </div>
-                <div class="sell-item_input">
-                    <input type="file" id="imageInput" accept="image/*" name="image" id="image"  class="item-img_input">
-                </div>
-                <div class="label-box">
+                <div class="sell-item_container">
+                    <div class="sell-item-img">
+                        <img src="{{ isset($item) && $item->image ? asset('storage/' . $item->image) : asset('images/default.png') }}" alt="商品画像" id="previewImage" class="item-image">
+                    </div>
                     <label for="imageInput" class="image-select_btn">
                         画像を選択する
                     </label>
+                    <input type="file" id="imageInput"  name="image" class="item-img_input" accept="image/*">
+                    <div class="file-name" id="fileName"></div>
+
                     <div class="error">
                         @error('image')
-                            {{$message}}
+                            {{ $message }}
                         @enderror
                     </div>
+
                 </div>
             </div>
-
 
         </div>
 

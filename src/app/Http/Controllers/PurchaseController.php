@@ -11,6 +11,11 @@ use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Stripe\Stripe;
+use Stripe\Webhook;
+use Stripe\Event;
+use Stripe\PaymentIntent;
+use Stripe\Checkout\Session;
 
 class PurchaseController extends Controller
 {
@@ -32,26 +37,114 @@ class PurchaseController extends Controller
         return view('purchase' , compact('item', 'profile', 'purchase_methods'));
     }
 
-    // 商品購入機能
+        // 商品購入機能
     public function storePurchase(PurchaseRequest $request)
     {
+        DB::beginTransaction();
 
+        try {
+            $item = Item::findOrFail($request->item_id);
+            $profile = Profile::where('user_id', Auth::id())->firstOrFail();
+
+            // 商品がすでに購入済みなら処理中止
+            if ($item->is_sold) {
+                return redirect()->route('purchase.error')->with('message', 'この商品はすでに購入されています。');
+            }
+
+            // 価格チェック
+            if ($item->price === null || !is_numeric($item->price)) {
+                return redirect()->route('purchase.error')->with('message', '商品の価格情報に問題があります。');
+            }
+
+            // 1. まず購入登録
+            $purchase = Purchase::create([
+                'user_id' => Auth::id(),
+                'item_id' => $item->id,
+                'purchase_method' => $request->purchase_method,
+                'profile_id' => $profile->id,
+
+            ]);
+
+            // 商品の状態更新
+            $item->update(['is_sold' => true]);
+
+            // Stripe APIキー設定
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $unit_amount = (int) $item->price;
+
+            // 2. Stripe Checkout セッション作成
+            $session = Session::create([
+                'payment_method_types' => [$request->purchase_method === 'カード払い' ? 'card' : 'konbini'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $item->name,
+                        ],
+                        'unit_amount' => $unit_amount,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => route('purchase.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('purchase.cancel'),
+            ]);
+
+            // Optional: payment_intent_id を保存しておくとWebhookで使える
+            $purchase->update(['payment_intent_id' => $session->payment_intent ?? null]);
+
+            DB::commit();
+
+            return redirect($session->url);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('購入処理エラー: ' . $e->getMessage());
+            return redirect()->route('purchase.error')->with('message', '購入処理中にエラーが発生しました。');
+        }
+    }
+    public function success(Request $request)
+    {
+        $session_id = $request->get('session_id');
+        // セッションIDを使用して、Stripe APIを通じて決済情報を取得することができます。
+
+        return view('purchase.success', compact('session_id'));
+    }
+    public function cancel(Request $request)
+    {
         $item = Item::find($request->item_id);
-
-        $profile = Profile::where('user_id', Auth::id())->first();
-
-        $purchase = Purchase::create([
-            'user_id' => Auth::id(),
-            'item_id' => $request->item_id,
-            'profile_id' => optional($profile)->id, // `$profile` が `null` なら `null`
-            'purchase_method' => $request->purchase_method,
-        ]);
+        return view('purchase.cancel', compact('item'));
+    }
 
 
-        $item->update(['is_sold' => true]);
+        public function handleWebhook(Request $request)
+    {
+        \Log::info('Webhook受信', $request->all());
 
-        return redirect()->route('myPage')->with('message', '商品を購入しました');
+        try {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            $event = Webhook::constructEvent(
+                $request->getContent(),
+                $request->header('Stripe-Signature'),
+                env('STRIPE_WEBHOOK_SECRET') // .env で設定
+            );
 
+            if ($event->type === 'payment_intent.succeeded') {
+                $paymentIntent = $event->data->object;
+
+                // ここで支払い完了処理を行う
+                Purchase::where('payment_intent_id', $paymentIntent->id)
+                    ->update(['status' => 'paid']);
+
+                \Log::info("支払い成功: " . $paymentIntent->id);
+            }
+        } catch (\Exception $e) {
+            \Log::error("Webhookエラー: " . $e->getMessage());
+            return response()->json(['error' => 'Webhook処理エラー'], 400);
+        }
+
+        return response()->json(['message' => 'OK']);
     }
 
     // 住所変更画面表示

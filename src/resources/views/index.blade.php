@@ -23,8 +23,8 @@
 <div class="top-view">
     <div class="list-link">
             @if(Auth::check())
-                <a href="{{ route('topPage') }}" class="link-title {{ request()->routeIs('topPage') ? 'active' : '' }}">おすすめ</a>
-                <a href="{{ route('myList') }}" class="link-title {{ request()->routeIs('myList') ? 'active' : '' }}">マイリスト</a>
+                <a href="{{ route('topPage', ['name' => request('name')]) }}" class="link-title {{ request()->routeIs('topPage') ? 'active' : '' }}">おすすめ</a>
+                <a href="{{ route('myList', ['name' => request('name')]) }}" class="link-title {{ request()->routeIs('myList') ? 'active' : '' }}">マイリスト</a>
             @else
                 <a href="{{ route('nothing') }}"class="link-title {{ request()->routeIs('nothing') ? 'active' : '' }}">おすすめ</a>
                 <a href="{{ route('nothing') }}" class="link-title {{ request()->routeIs('nothing') ? 'active' : '' }}">マイリスト</a>

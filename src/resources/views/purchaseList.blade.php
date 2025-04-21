@@ -33,6 +33,7 @@
     </div>
 </div>
 
+@if($purchasedItems->isNotEmpty())
 <div class="row-view">
     <div class="goods-cards">
         @foreach($purchasedItems as $purchase)
@@ -47,5 +48,8 @@
         {{ $purchasedItems->links('vendor.pagination.bootstrap-4') }}
     </div>
 </div>
+@else
+<div class="no-item">購入した商品はありません</div>
+@endif
 
 @endsection

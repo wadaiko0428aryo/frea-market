@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->char("onetime_token", 4)->nullable(); // ワンタイムトークン
+            $table->dateTime("onetime_expiration")->nullable(); // ワンタイムトークンの有効期限
             $table->timestamps();
         });
     }

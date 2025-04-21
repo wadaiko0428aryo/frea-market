@@ -19,7 +19,7 @@
                 </a>
             </div>
 
-            @if (Request::is('login') || Request::is('register'))
+            @if (Request::is('login') || Request::is('register') || Request::is('mailCheck'))
                 {{-- ログイン・新規登録ページではタイトル非表示 --}}
 
             @else
@@ -27,8 +27,8 @@
                 <div class="header-search">
                     <form action="{{ route('search') }}" method="get">
                         @csrf
-                        <input type="text" name="name" id="name" placeholder="なにをお探しですか？" class="search-form">
-                        <input type="submit" value="検索" class="search-submit">
+                        <input type="text" name="name" id="name" placeholder="なにをお探しですか？" class="search-form"value="{{ request('name') }}">
+                        <input type="submit" value="検索" class="search-submit" >
                         @if(request('name'))
                             <a href="{{ route('topPage') }}" class="reset-button">リセット</a>
                         @endif

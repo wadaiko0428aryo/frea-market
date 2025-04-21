@@ -32,7 +32,13 @@ class ItemController extends Controller
             $items = Item::paginate(8);
         }
 
-        return view('index' , compact('items' , 'page', 'user'));
+        $keyword = $request->input('name');
+        $query = Item::query();
+        if ($keyword) {
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        return view('index' , compact('items' , 'page', 'user', 'keyword'));
     }
 
     // ログインアラート表示
@@ -43,13 +49,25 @@ class ItemController extends Controller
 
 
     // マイリスト画面表示
-    public function myList()
+    public function myList(Request $request)
     {
-        $likedItems = Item::whereHas('likes', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->paginate(8);
+        $user = auth()->user();
+        $keyword = $request->input('name');
 
-        return view('myList', compact('likedItems'));
+        // ここで query ビルダーを定義してから、後で paginate
+        $likedItemsQuery = Item::whereHas('likes', function ($query) {
+            $query->where('user_id', Auth::id());
+        });
+
+        // 検索キーワードがあれば絞り込み
+        if ($keyword) {
+            $likedItemsQuery->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        // 最後に paginate を呼び出して結果取得
+        $likedItems = $likedItemsQuery->paginate(8);
+
+        return view('myList', compact('likedItems', 'keyword'));
     }
 
 
@@ -96,14 +114,20 @@ class ItemController extends Controller
     // コメント登録機能
     public function storeComment(CommentRequest $request, $itemId)
     {
+        // 未ログインなら /nothing にリダイレクト
+        if (!auth()->check()) {
+            return redirect()->route('nothing');
+        }
+
         $item = Item::find($itemId);
+
         $comment = new Comment();
         $comment->item_id = $item->id;
-        $comment->user_id = auth()->id();
+        $comment->user_id = auth()->id(); // ログイン済みなので null にはならない
         $comment->comment = $request->input('comment');
         $comment->save();
 
-        return redirect()->route('detail', ['item_id' =>$itemId]);
+        return redirect()->route('detail', ['item_id' => $itemId]);
     }
 
 
@@ -137,6 +161,7 @@ class ItemController extends Controller
 
         return view('purchaseList', compact('user', 'profile', 'purchasedItems'));
     }
+
 
 
 

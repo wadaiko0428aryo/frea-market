@@ -16,11 +16,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'onetime_token',
+        'onetime_expiration',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'onetime_token',
+        'onetime_expiration',
     ];
 
     protected $casts = [
