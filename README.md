@@ -8,6 +8,7 @@ Http://localhost/
 
 ## 機能一覧
 - 会員登録・ログイン
+- メール認証（mailhog）
 - お気に入り追加・削除
 - コメント投稿
 - 検索
@@ -21,6 +22,7 @@ Http://localhost/
 - MySQL8.0.26
 - JavaScript
 - stripe
+- mailhog
 
 ## ER図
 ![image](https://github.com/user-attachments/assets/02a964aa-f8da-49a6-9642-181747e89815)
