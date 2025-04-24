@@ -30,7 +30,7 @@ Http://localhost/
 ### Dockerビルド
 
 1. クローン作成
-> git clone
+> git clone git@github.com:wadaiko0428aryo/frea-market.git
 
 2. DockerDesktopアプリを立ち上げる
 
