@@ -105,11 +105,11 @@
 
 .image-select_btn {
     font-size: 16px;
-    color: #007bff;
+    color: #FF5555;
     cursor: pointer;
     padding: 5px 15px;
     /* ボタンに余白を追加 */
-    border: 1px solid #007bff;
+    border: 1px solid #FF5555;
     border-radius: 5px;
     background-color: #fff;
     margin-left: 10px;

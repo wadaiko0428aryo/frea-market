@@ -60,9 +60,7 @@ class ProfileController extends Controller
             'name' => $request->name
         ]);
 
-        // `session()->get()` でセッションの値を取得
-        $redirectTo = session()->get('referer') === 'register' ? 'topPage' : 'myPage';
 
-        return redirect()->route($redirectTo);
+        return redirect()->route('topPage')->with('message' , 'さんのプロフィール情報を設定しました');
     }
 }

@@ -111,7 +111,7 @@ class ItemTest extends TestCase
 
 
 
-// myListにいいねした商品が表示される
+    // myListにいいねした商品が表示される
     public function test_myList_display_good_items()
     {
         // テスト用ユーザーを作成し「$user」として行動する
@@ -167,12 +167,34 @@ class ItemTest extends TestCase
         }
     }
 
-    // myListに購入済みの証印は「SOLD」と表示される
-    // public function test_myList_item_sold_label()
-    // {
+    // myListに購入済みの商品は「SOLD」と表示される
+    public function test_myList_item_sold_label()
+    {
+        $user = User::factory()->create();
+        $seller = User::factory()->create();
+        $this->actingAs($user);
 
-    // }
+        $item = Item::create([
+            'name' => 'test',
+            'price' => '1200',
+            'description' => 'test data',
+            'condition' => 'good',
+            'image' => 'test.jpeg',
+            'user_id' => $user->id,
+            'seller_id' => $seller->id,
+            'is_sold' => false, // 最初は未購入として登録
+        ]);
 
+        // sold 状態に更新
+        $item->update(['is_sold' => true]);
+
+        // sold のアイテムをいいね
+        $user->likedItems()->attach($item->id);
+
+        $response = $this->get(route('myList'));
+        $response->assertStatus(200);
+        $response->assertSee('sold');
+    }
 
     // ログインユーザーはマイリストページへ遷移する
     public function test_login_user_myList_display()

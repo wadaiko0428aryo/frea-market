@@ -63,9 +63,13 @@
 
         @if(Auth::check())
         <div class="buy-btn">
-            <a href="{{ route('purchase' ,  ['item_id' => $item->id]) }}" class="buy-btn_link">
-                購入手続きへ
-            </a>
+            @if(! $item->is_sold)
+                <a href="{{ route('purchase' ,  ['item_id' => $item->id]) }}" class="buy-btn_link">
+                    購入手続きへ
+                </a>
+            @else
+                <a class="buy-btn_link">購入済み</a>
+            @endif
         </div>
         @else
         <div class="buy-btn">
@@ -121,7 +125,7 @@
                 <div class="comment-box">
                     <div class="commenter-box">
                         <span class="commenter-icon">
-                            <img src="{{ asset('storage/' . $profile->image) }}" alt="{{ $user->name }}のアイコン" class="profile-image">
+                            <img src="{{ asset('storage/' . $comment->user->profile->image) }}" alt="{{ $comment->user->name }}のアイコン" class="profile-image">
                         </span>
                         <span class="commenter">
                             {{ $comment->user->name }}

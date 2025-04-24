@@ -7,18 +7,17 @@
 @section('content')
 
 @if(session('message'))
+<!-- ログイン成功 -->
     <div class="alert">
         <div class="alert-message">
             @if(Auth::check())
                 {{ Auth::user()->name }} {{ session('message') }}
             @else
-                {{ session('message') }}
+                {{ Auth::user()->name }} {{ session('message') }}
             @endif
         </div>
     </div>
 @endif
-
-
 
 <div class="top-view">
     <div class="list-link">
@@ -52,7 +51,7 @@
                     @endif
                 @endforeach
             </div>
-            
+
         </div>
     </div>
     <div class="pagination">

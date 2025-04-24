@@ -6,14 +6,6 @@
 
 @section('content')
 
-@if(session('message'))
-
-<div class="alert">
-    <div class="alert-message">
-        {{session('message')}}
-    </div>
-</div>
-@endif
 
 <div class="profile-view">
     <div class="user-view">

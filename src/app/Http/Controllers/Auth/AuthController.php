@@ -61,7 +61,7 @@ class AuthController extends Controller
         User::create([
             'email' => $email,
             'onetime_token' => $onetime_token,
-            'ontime_expiration' => $onetime_expiration
+            'onetime_expiration' => $onetime_expiration
         ]);
     }
 
@@ -114,7 +114,11 @@ class AuthController extends Controller
                 // ここで `referer` を取得し、プロフィール画面へ渡す
                 $referer = session('referer', 'login'); // デフォルトは `login`
 
-                return redirect()->route('profile')->with('referer', $referer);
+                if ($referer === 'register') {
+                    return redirect()->route('profile')->with('referer', $referer);
+                } else {
+                    return redirect()->route('topPage')->with('message', 'ログインしました');
+                }
             }
 
             // トークンが無効または期限切れ
@@ -129,6 +133,32 @@ class AuthController extends Controller
     {
         // バリデーションが通った後の処理
         $validated = $request->validated();  // バリデーション通過後のデータ
+
+        $user = User::where('email', $validated['email'])->first();
+
+        // パスワードチェック
+        if ($user && Hash::check($validated['password'], $user->password)) {
+
+            // ワンタイムトークン生成
+            $onetime_token = strval(rand(1000, 9999));
+            $onetime_expiration = now()->addMinutes(10);
+
+            // トークンを保存
+            $user->onetime_token = $onetime_token;
+            $user->onetime_expiration = $onetime_expiration;
+            $user->save();
+
+            // トークンメール送信
+            Mail::to($user->email)->send(new TokenEmail($user->email, $onetime_token));
+
+            // ログインせずに email をセッションに保存
+            session([
+                'email' => $user->email,
+                'referer' => 'login' // 後でリダイレクト用
+            ]);
+
+            return redirect()->route('mailCheck');
+        }
 
         // ユーザー認証
         if (Auth::attempt([

@@ -17,11 +17,18 @@
     @else
         <div class="goods-cards">
             @foreach($likedItems as $item)
+                @if(! $item->is_sold)
                     <a href="{{ route('detail' , $item->id) }}" class="goods-card">
-                    <img src="{{ Str::startsWith($item->image, 'items/') ? asset('storage/' . $item->image) : asset('images/' . basename($item->image)) }}" alt="商品画像" class="goods-img">
-                    <div class="goods-name">{{ $item->name }}</div>
+                        <img src="{{ Str::startsWith($item->image, 'items/') ? asset('storage/' . $item->image) : asset('images/' . basename($item->image)) }}" alt="商品画像" class="goods-img">
+                        <div class="goods-name">{{ $item->name }}</div>
                     </a>
-                    <!-- myList内でsold表示 -->
+                @else
+                    <div class="goods-card sold">
+                        <img src="{{ Str::startsWith($item->image, 'items/') ? asset('storage/' . $item->image) : asset('images/' . basename($item->image)) }}" alt="商品画像" class="goods-img">
+                        <div class="goods-name">{{ $item->name }}</div>
+                        <span class="sold-label">SOLD</span>
+                    </div>
+                @endif
             @endforeach
         </div>
     @endif
