@@ -60,14 +60,18 @@ Http://localhost/
 5. .envにmailhogの設定を追加
 > - MAIL_FROM_ADDRESS="example@test.com"
 > - MAIL_FROM_NAME="フリマアプリ"
+
+6. .envにstripeの設定を追加
+> - STRIPE_KEY=　　　　自身のstripeの公開可能キー
+> - STRIPE_SECRET=　  自身のstripeのシークレットキー
    
-5.アプリケーションキーの作成
+7.アプリケーションキーの作成
 > php artisan key:generate
 
-6.マイグレーションの実行
+8.マイグレーションの実行
 > php artisan migrate
 
-7.シーディングの実行
+9.シーディングの実行
 > php artisan db::seed  
 
 ※メール、stripe等の設定は必要に応じて行ってください。
