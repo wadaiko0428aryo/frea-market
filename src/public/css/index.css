@@ -27,3 +27,9 @@
     align-items: center;
 }
 
+/* myList */
+.not-liked {
+    text-align: center;
+    font-size: 20px;
+    margin: 80px auto;
+}

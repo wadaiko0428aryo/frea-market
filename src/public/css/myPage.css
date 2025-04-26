@@ -76,3 +76,9 @@
         width: 100%;
     }
 }
+
+.no-item{
+    text-align: center;
+    font-size: 20px;
+    margin: 60px auto;
+}
