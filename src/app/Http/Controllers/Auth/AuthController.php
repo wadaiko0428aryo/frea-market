@@ -42,10 +42,12 @@ class AuthController extends Controller
         Mail::to($user->email)->send(new TokenEmail($user->email, $onetime_token));
 
 
-        // ログイン処理
-        Auth::login($user);
+        session([
+            'email' => $user->email,
+            'referer' => 'register',
+        ]);
 
-        return redirect()->route('mailCheck')->with('referer', 'register');
+        return redirect()->route('mailCheck');
     }
 
     public function mailCheck()
@@ -89,9 +91,9 @@ class AuthController extends Controller
 
         $user = User::where('email', $email)->first(); // 受け取ったメールアドレスで検索
         if ($user === null) {
-            RegisteredUserController::storeEmailAndToken($email, $onetime_token, $onetime_expiration);
+            AuthController::storeEmailAndToken($email, $onetime_token, $onetime_expiration);
         } else {
-            RegisteredUserController::storeToken($email, $onetime_token, $onetime_expiration);
+            AuthController::storeToken($email, $onetime_token, $onetime_expiration);
         }
 
         session()->flash('email', $email); // 認証処理で利用するために一時的に格納
@@ -111,13 +113,15 @@ class AuthController extends Controller
             if ($user && $user->onetime_token == $request->onetime_token && now()->lessThanOrEqualTo($user->onetime_expiration)) {
                 // 認証成功
                 Auth::login($user);
-                // ここで `referer` を取得し、プロフィール画面へ渡す
-                $referer = session('referer', 'login'); // デフォルトは `login`
+                // ここで `referer` を取得
+                $referer = session('referer', 'login'); // セッションから取得、なければ 'login'
 
                 if ($referer === 'register') {
-                    return redirect()->route('profile')->with('referer', $referer);
+                    // 新規登録ユーザーの場合、プロフィール登録へ
+                    return redirect()->route('profile');
                 } else {
-                    return redirect()->route('topPage')->with('message', 'ログインしました');
+                    // ログインユーザーの場合、トップページへ
+                    return redirect()->route('topPage')->with('message', 'さんのアカウントにログインしました');
                 }
             }
 
@@ -151,12 +155,11 @@ class AuthController extends Controller
             // トークンメール送信
             Mail::to($user->email)->send(new TokenEmail($user->email, $onetime_token));
 
-            // ログインせずに email をセッションに保存
+            // セッションに保存
             session([
                 'email' => $user->email,
-                'referer' => 'login' // 後でリダイレクト用
+                'referer' => 'login',  // ここでloginって設定しておく
             ]);
-
             return redirect()->route('mailCheck');
         }
 
