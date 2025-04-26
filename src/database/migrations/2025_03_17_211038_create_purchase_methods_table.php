@@ -16,8 +16,9 @@ class CreatePurchaseMethodsTable extends Migration
         Schema::create('purchase_methods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('purchase_id')->constrained('purchases')->onDelete('cascade');
-            $table->string('purchase_method');
-            $table->timestamps();
+            $table->varchar('purchase_method');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

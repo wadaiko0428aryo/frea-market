@@ -15,14 +15,15 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->varchar('name');
+            $table->varchar('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->varchar('password');
             $table->rememberToken();
             $table->char("onetime_token", 4)->nullable(); // ワンタイムトークン
             $table->dateTime("onetime_expiration")->nullable(); // ワンタイムトークンの有効期限
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
