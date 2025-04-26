@@ -57,6 +57,10 @@ Http://localhost/
 > - DB_USERNAME=laravel_user
 > - DB_PASSWORD=laravel_pass
 
+5. .envにmailhogの設定を追加
+> - MAIL_FROM_ADDRESS="example@test.com"
+> - MAIL_FROM_NAME="フリマアプリ"
+   
 5.アプリケーションキーの作成
 > php artisan key:generate
 
