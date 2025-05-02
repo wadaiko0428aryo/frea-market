@@ -15,10 +15,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->varchar('name');
-            $table->varchar('email')->unique();
+            $table->string('name');
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->varchar('password');
+            $table->string('password');
             $table->rememberToken();
             $table->char("onetime_token", 4)->nullable(); // ワンタイムトークン
             $table->dateTime("onetime_expiration")->nullable(); // ワンタイムトークンの有効期限

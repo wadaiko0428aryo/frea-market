@@ -16,12 +16,12 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->varchar('name');
+            $table->string('name');
             $table->decimal('price', 10, 0);
             $table->text('description');
-            $table->varchar('image');
+            $table->string('image');
             $table->text('condition');
-            $table->varchar('brand')->nullable();
+            $table->string('brand')->nullable();
             $table->boolean('is_sold')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
