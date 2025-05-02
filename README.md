@@ -65,14 +65,17 @@ Http://localhost/
 > - STRIPE_KEY=　　　　自身のstripeの公開可能キー
 > - STRIPE_SECRET=　  自身のstripeのシークレットキー
    
-7.アプリケーションキーの作成
+7. アプリケーションキーの作成
 > php artisan key:generate
 
-8.マイグレーションの実行
+8. マイグレーションの実行
 > php artisan migrate
 
-9.シーディングの実行
-> php artisan db::seed  
+9. シーディングの実行
+> php artisan db::seed
+
+10. シンボリックリンクの実行
+> php artisan storage:link
 
 ※メール、stripe等の設定は必要に応じて行ってください。
 
